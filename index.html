@@ -459,9 +459,9 @@ footer{background:#060E1C;padding:5rem 4rem 3rem;border-top:1px solid rgba(255,2
 <!-- HERO -->
 <section class="hero" id="home">
   <div class="hero-text">
-    <div class="hero-badge">Профессиональное оборудование · с 2007 года</div>
-    <h1 class="hero-h1">Точность —<br>это <em>наука.</em></h1>
-    <p class="hero-p">Аналитическое и лабораторное оборудование мирового класса. Полный цикл: от технического аудита до послегарантийного обслуживания.</p>
+    <div class="hero-badge" id="el-hero-badge">Профессиональное оборудование · с 2007 года</div>
+    <h1 class="hero-h1" id="el-hero-h1">Точность —<br>это <em>наука.</em></h1>
+    <p class="hero-p" id="el-hero-p">Аналитическое и лабораторное оборудование мирового класса. Полный цикл: от технического аудита до послегарантийного обслуживания.</p>
     <div class="hero-actions">
       <a href="#catalog" class="btn-dark">Смотреть каталог →</a>
       <a href="#cta" class="btn-line">Запросить консультацию</a>
@@ -499,7 +499,7 @@ footer{background:#060E1C;padding:5rem 4rem 3rem;border-top:1px solid rgba(255,2
     <div class="hero-img-overlay"></div>
     <div class="hero-img-tag">
       <span class="hero-img-tag-txt">Комплексное оснащение лабораторий</span>
-      <span class="hero-img-tag-badge">От 50 000 ₽</span>
+      <span class="hero-img-tag-badge" id="el-hero-price-from">От 50 000 ₽</span>
     </div>
   </div>
 </section>
@@ -923,8 +923,8 @@ footer{background:#060E1C;padding:5rem 4rem 3rem;border-top:1px solid rgba(255,2
   <div class="cta-inner">
     <div>
       <div class="sec-label">Начать сотрудничество</div>
-      <h2 class="cta-h">Готовы оснастить<br>вашу <em>лабораторию?</em></h2>
-      <p class="cta-sub">Оставьте контакт — наш специалист свяжется в течение часа и подготовит предложение.</p>
+      <h2 class="cta-h" id="el-cta-h">Готовы оснастить<br>вашу <em>лабораторию?</em></h2>
+      <p class="cta-sub" id="el-cta-sub">Оставьте контакт — наш специалист свяжется в течение часа и подготовит предложение.</p>
       <ul class="cta-features">
         <li>Бесплатная консультация и выезд</li>
         <li>Индивидуальный подбор оборудования</li>
@@ -950,12 +950,12 @@ footer{background:#060E1C;padding:5rem 4rem 3rem;border-top:1px solid rgba(255,2
 <footer>
   <div class="footer-grid">
     <div>
-      <div class="footer-logo-txt">SPEKTR<span>·</span>LAB</div>
-      <p class="footer-desc">Профессиональное лабораторное и аналитическое оборудование. Официальный дистрибьютор ведущих мировых производителей с 2007 года.</p>
+      <div class="footer-logo-txt" id="el-company-name">SPEKTR<span>·</span>LAB</div>
+      <p class="footer-desc" id="el-footer-desc">Профессиональное лабораторное и аналитическое оборудование. Официальный дистрибьютор ведущих мировых производителей с 2007 года.</p>
       <div class="footer-contact">
-        <span>+7 (800) 555-01-23</span>
-        <a href="mailto:info@spektrlab.ru">info@spektrlab.ru</a>
-        <span>Москва, Ленинградский пр., 80к3</span>
+        <span id="el-phone">+7 (800) 555-01-23</span>
+        <a href="mailto:info@spektrlab.ru" id="el-email">info@spektrlab.ru</a>
+        <span id="el-address">Москва, Ленинградский пр., 80к3</span>
       </div>
     </div>
     <div>
@@ -993,10 +993,10 @@ footer{background:#060E1C;padding:5rem 4rem 3rem;border-top:1px solid rgba(255,2
     </div>
   </div>
   <div class="footer-bottom">
-    <span class="footer-copy">© 2024 SPEKTR LAB. Все права защищены.</span>
+    <span class="footer-copy" id="el-footer-copy">© 2024 SPEKTR LAB. Все права защищены.</span>
     <div class="footer-legal">
       <a href="#">Политика конфиденциальности</a>
-      <a href="#">Условия использования</a>
+      <a href="#">Условия использования</a><a href="admin.html" style="color:rgba(100,150,200,.3);font-size:10px;letter-spacing:.06em">⚙ Управление</a>
       <a href="#">Реквизиты</a>
     </div>
   </div>
@@ -1144,6 +1144,62 @@ function ctaSubmit(e) {
   btn.style.cssText = 'background:var(--green);border-color:var(--green);color:#fff';
   setTimeout(() => { btn.textContent = orig; btn.style.cssText = ''; }, 3500);
 }
+</script>
+<script>
+(function(){
+  try{
+    var d=JSON.parse(localStorage.getItem('spektr_data')||'null');
+    if(!d)return;
+    function el(id){return document.getElementById(id)}
+    function setHTML(id,v){var e=el(id);if(e&&v)e.innerHTML=v}
+    function setTxt(id,v){var e=el(id);if(e&&v)e.textContent=v}
+    if(d.hero){
+      setHTML('el-hero-badge',d.hero.badge);
+      setHTML('el-hero-h1',d.hero.h1);
+      setTxt('el-hero-p',d.hero.p);
+      setTxt('el-hero-price-from',d.hero.priceFrom);
+    }
+    if(d.contact){
+      setTxt('el-phone',d.contact.phone);
+      var em=el('el-email');if(em&&d.contact.email){em.textContent=d.contact.email;em.href='mailto:'+d.contact.email}
+      setTxt('el-address',d.contact.address);
+    }
+    if(d.cta){
+      setHTML('el-cta-h',d.cta.title);
+      setTxt('el-cta-sub',d.cta.sub);
+    }
+    if(d.footer){
+      setHTML('el-company-name',d.footer.name);
+      setTxt('el-footer-desc',d.footer.desc);
+      setTxt('el-footer-copy',d.footer.copy);
+    }
+    if(d.stats){
+      var ctrs=document.querySelectorAll('.stat .counter');
+      var sfxs=document.querySelectorAll('.stat .stat-suffix');
+      var lbls=document.querySelectorAll('.stat .stat-label');
+      d.stats.forEach(function(s,i){
+        if(ctrs[i]){ctrs[i].textContent=s.n;ctrs[i].setAttribute('data-t',s.n)}
+        if(sfxs[i])sfxs[i].textContent=s.suffix||'+';
+        if(lbls[i])lbls[i].textContent=s.label;
+      });
+    }
+    if(d.products){
+      var cards=document.querySelectorAll('.pcard');
+      d.products.forEach(function(p,i){
+        var c=cards[i];if(!c)return;
+        var n=c.querySelector('.pcard-name');
+        var pr=c.querySelector('.pcard-price');
+        var cat=c.querySelector('.pcard-cat');
+        if(n&&p.name)n.textContent=p.name;
+        if(cat&&p.cat)cat.textContent=p.cat;
+        if(pr&&p.price){
+          var orig=pr.innerHTML;
+          pr.innerHTML=orig.replace(/от[\s\S]*?(?=<\/div>|$)/,'от '+p.price);
+        }
+      });
+    }
+  }catch(e){}
+})();
 </script>
 </body>
 </html>
