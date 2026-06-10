@@ -26,6 +26,30 @@
 #dna-canvas{animation:dna-pulse 5s ease-in-out infinite}
 @keyframes dna-pulse{0%,100%{opacity:.65}50%{opacity:.9}}
 html{scroll-behavior:smooth}
+/* Enhanced modal */
+.modal-photo-meta{position:absolute;bottom:1rem;left:1rem;display:flex;gap:.5rem;flex-wrap:wrap}
+.modal-brand-badge{font-family:var(--fm);font-size:9px;letter-spacing:.12em;text-transform:uppercase;background:var(--blue);color:#fff;padding:3px 8px}
+.modal-origin{font-family:var(--fm);font-size:9px;letter-spacing:.1em;color:#4878B8;text-transform:uppercase}
+.modal-top-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:.3rem}
+.modal-warranty-badge{font-family:var(--fm);font-size:9px;letter-spacing:.08em;color:var(--green);border:1px solid rgba(23,160,96,.3);padding:3px 8px}
+.modal-price-row{display:flex;align-items:center;gap:1rem;margin:0 0 1rem}
+.modal-delivery-pill{font-family:var(--fm);font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:#4878B8;border:1px solid var(--border);padding:4px 10px}
+.modal-desc{font-size:.85rem;color:#6B98CC;line-height:1.75;margin-bottom:1.2rem;border-left:2px solid var(--blue);padding-left:.9rem}
+.modal-tabs-bar{display:flex;gap:0;border-bottom:1px solid var(--border);margin-bottom:1rem}
+.modal-tab-btn{font-family:var(--fm);font-size:10px;letter-spacing:.1em;text-transform:uppercase;padding:.55rem 1rem;border:none;background:transparent;color:#2E6AAF;cursor:pointer;border-bottom:2px solid transparent;transition:all .2s;margin-bottom:-1px}
+.modal-tab-btn.active{color:var(--blue);border-bottom-color:var(--blue)}
+.modal-tab-btn:hover{color:var(--text)}
+.modal-panel{display:none}
+.modal-panel.active{display:block}
+.modal-apps{list-style:none;display:flex;flex-direction:column;gap:.4rem}
+.modal-apps li{font-size:.82rem;color:#6B98CC;display:flex;align-items:center;gap:.6rem;padding:.35rem 0}
+.modal-apps li::before{content:'→';color:var(--green);flex-shrink:0}
+.modal-docs{display:flex;flex-direction:column;gap:.6rem}
+.modal-doc-link{display:flex;align-items:center;gap:.75rem;padding:.65rem .9rem;border:1px solid var(--border);color:#6B98CC;font-size:.82rem;transition:border-color .2s;cursor:pointer;background:transparent;text-align:left;width:100%}
+.modal-doc-link:hover{border-color:var(--blue);color:#C8DEFF}
+.modal-doc-ico{width:28px;height:28px;background:rgba(16,85,200,.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--blue);font-size:12px}
+.modal-trust-row{display:flex;gap:1rem;flex-wrap:wrap;margin-top:.8rem;padding-top:.8rem;border-top:1px solid var(--border)}
+.modal-trust-row span{font-family:var(--fm);font-size:9px;letter-spacing:.07em;text-transform:uppercase;color:#2E6AAF}
 /* HOW WE WORK */
 .howto-sec{padding:6rem 4rem;background:var(--bg)}
 .howto-steps{display:grid;grid-template-columns:repeat(6,1fr);gap:0;margin-top:3rem;position:relative}
@@ -531,17 +555,45 @@ footer{background:#060E1C;padding:5rem 4rem 3rem;border-top:1px solid rgba(255,2
     <div class="modal-photo" id="modal-photo">
       <button class="modal-close" id="modal-close">×</button>
       <img id="modal-img" src="" alt="">
+      <div class="modal-photo-meta">
+        <span class="modal-brand-badge" id="modal-brand"></span>
+        <span class="modal-origin" id="modal-origin"></span>
+      </div>
     </div>
     <div class="modal-content">
-      <div class="modal-cat" id="modal-cat"></div>
+      <div class="modal-top-row">
+        <div class="modal-cat" id="modal-cat"></div>
+        <div class="modal-warranty-badge" id="modal-warranty-badge" style="font-family:var(--fm);font-size:9px;color:var(--green);letter-spacing:.1em;text-transform:uppercase"></div>
+      </div>
       <div class="modal-name" id="modal-name"></div>
-      <div class="modal-price" id="modal-price"></div>
-      <ul class="modal-specs" id="modal-specs"></ul>
+      <div class="modal-price-row" style="display:flex;align-items:center;gap:1rem">
+        <div class="modal-price" id="modal-price"></div>
+        <div class="modal-delivery-pill" id="modal-delivery-pill"></div>
+      </div>
+      <p class="modal-desc" id="modal-desc"></p>
+      <div class="modal-tabs-bar">
+        <button class="modal-tab-btn active" data-panel="modal-panel-specs">Характеристики</button>
+        <button class="modal-tab-btn" data-panel="modal-panel-apps">Применение</button>
+        <button class="modal-tab-btn" data-panel="modal-panel-docs">Документы</button>
+      </div>
+      <div class="modal-panel active" id="modal-panel-specs">
+        <ul class="modal-specs" id="modal-specs"></ul>
+      </div>
+      <div class="modal-panel" id="modal-panel-apps" style="display:none">
+        <ul id="modal-apps" style="list-style:none;padding:.5rem 0"></ul>
+      </div>
+      <div class="modal-panel" id="modal-panel-docs" style="display:none">
+        <div id="modal-docs" style="padding:.5rem 0"></div>
+      </div>
       <div class="modal-btns">
         <button class="modal-btn-main" id="modal-cta-btn">Запросить цену →</button>
         <button class="modal-btn-sec" id="modal-close2">Закрыть</button>
       </div>
-      <p class="modal-note">Цена зависит от комплектации. Менеджер свяжется в течение часа.</p>
+      <div style="display:flex;gap:1rem;flex-wrap:wrap;margin-top:.5rem">
+        <span style="font-family:var(--fm);font-size:9px;color:var(--green);letter-spacing:.08em">✓ Официальная гарантия</span>
+        <span style="font-family:var(--fm);font-size:9px;color:var(--green);letter-spacing:.08em">✓ Доставка по России</span>
+        <span style="font-family:var(--fm);font-size:9px;color:var(--green);letter-spacing:.08em">✓ Монтаж и поверка СИ</span>
+      </div>
     </div>
   </div>
 </div>
@@ -556,7 +608,7 @@ footer{background:#060E1C;padding:5rem 4rem 3rem;border-top:1px solid rgba(255,2
     <li><a href="#cats">Продукция</a></li>
     <li><a href="#catalog">Каталог</a></li>
     
-    <li><a href="#process">Услуги</a></li><li><a href="#projects">Проекты</a></li>
+    <li><a href="#process">Услуги</a></li>
     <li><a href="#cta">Контакты</a></li>
   </ul>
   <a href="tel:+78005550123" class="nav-phone" style="font-family:var(--fm);font-size:11px;letter-spacing:.06em;color:#4878B8;text-decoration:none;margin-right:.5rem;display:none" id="nav-phone-link">+7 (800) 555-01-23</a>
@@ -843,7 +895,7 @@ footer{background:#060E1C;padding:5rem 4rem 3rem;border-top:1px solid rgba(255,2
           <li>Гарантия <span class="sv">3 года</span></li>
         </ul>
         <div class="pcard-foot">
-          <div class="pcard-price"><small>от ₽</small>89 900</div>
+          <div class="pcard-price"><small>от ₽</small>85 000</div>
           <button class="pcard-btn" onclick="openModal(this)">Подробнее →</button>
         </div>
       </div>
@@ -866,7 +918,7 @@ footer{background:#060E1C;padding:5rem 4rem 3rem;border-top:1px solid rgba(255,2
           <li>Интерфейс <span class="sv">USB, LAN</span></li>
         </ul>
         <div class="pcard-foot">
-          <div class="pcard-price"><small>от ₽</small>247 000</div>
+          <div class="pcard-price"><small>от ₽</small>345 000</div>
           <button class="pcard-btn" onclick="openModal(this)">Подробнее →</button>
         </div>
       </div>
@@ -889,7 +941,7 @@ footer{background:#060E1C;padding:5rem 4rem 3rem;border-top:1px solid rgba(255,2
           <li>Хладагент <span class="sv">CFC-free</span></li>
         </ul>
         <div class="pcard-foot">
-          <div class="pcard-price"><small>от ₽</small>168 500</div>
+          <div class="pcard-price"><small>от ₽</small>385 000</div>
           <button class="pcard-btn" onclick="openModal(this)">Подробнее →</button>
         </div>
       </div>
@@ -912,7 +964,7 @@ footer{background:#060E1C;padding:5rem 4rem 3rem;border-top:1px solid rgba(255,2
           <li>Камера <span class="sv">16 МП sCMOS</span></li>
         </ul>
         <div class="pcard-foot">
-          <div class="pcard-price"><small>от ₽</small>385 000</div>
+          <div class="pcard-price"><small>от ₽</small>480 000</div>
           <button class="pcard-btn" onclick="openModal(this)">Подробнее →</button>
         </div>
       </div>
@@ -936,7 +988,7 @@ footer{background:#060E1C;padding:5rem 4rem 3rem;border-top:1px solid rgba(255,2
           <li>ПО <span class="sv">LabSolutions</span></li>
         </ul>
         <div class="pcard-foot">
-          <div class="pcard-price"><small>от ₽</small>520 000</div>
+          <div class="pcard-price"><small>от ₽</small>850 000</div>
           <button class="pcard-btn" onclick="openModal(this)">Подробнее →</button>
         </div>
       </div>
@@ -960,7 +1012,7 @@ footer{background:#060E1C;padding:5rem 4rem 3rem;border-top:1px solid rgba(255,2
           <li>Интерфейс <span class="sv">RS-232, USB</span></li>
         </ul>
         <div class="pcard-foot">
-          <div class="pcard-price"><small>от ₽</small>68 700</div>
+          <div class="pcard-price"><small>от ₽</small>98 000</div>
           <button class="pcard-btn" onclick="openModal(this)">Подробнее →</button>
         </div>
       </div>
@@ -983,7 +1035,7 @@ footer{background:#060E1C;padding:5rem 4rem 3rem;border-top:1px solid rgba(255,2
           <li>Нагрев до 1000°C <span class="sv">45 мин</span></li>
         </ul>
         <div class="pcard-foot">
-          <div class="pcard-price"><small>от ₽</small>94 500</div>
+          <div class="pcard-price"><small>от ₽</small>82 000</div>
           <button class="pcard-btn" onclick="openModal(this)">Подробнее →</button>
         </div>
       </div>
@@ -1007,7 +1059,7 @@ footer{background:#060E1C;padding:5rem 4rem 3rem;border-top:1px solid rgba(255,2
           <li>Шум <span class="sv">≤ 55 дБ</span></li>
         </ul>
         <div class="pcard-foot">
-          <div class="pcard-price"><small>от ₽</small>45 200</div>
+          <div class="pcard-price"><small>от ₽</small>145 000</div>
           <button class="pcard-btn" onclick="openModal(this)">Подробнее →</button>
         </div>
       </div>
@@ -1030,10 +1082,136 @@ footer{background:#060E1C;padding:5rem 4rem 3rem;border-top:1px solid rgba(255,2
           <li>Калибровка <span class="sv">до 5 точек</span></li>
         </ul>
         <div class="pcard-foot">
-          <div class="pcard-price"><small>от ₽</small>18 900</div>
+          <div class="pcard-price"><small>от ₽</small>22 000</div>
           <button class="pcard-btn" onclick="openModal(this)">Подробнее →</button>
         </div>
       </div>
+
+    <!-- NEW CARD 1: Газовый хроматограф -->
+    <div class="pcard fu" data-cat="аналитика">
+      <div class="pcard-photo" style="background:var(--surface);display:flex;align-items:center;justify-content:center;color:var(--mid)">
+        <svg width="72" height="72" viewBox="0 0 72 72" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="6" y="14" width="42" height="40" rx="3"/><rect x="12" y="20" width="14" height="8" rx="1.5"/><path d="M28 44 Q34 28 40 36 Q43 44 46 32" stroke-width="2"/><circle cx="57" cy="24" r="8"/><line x1="52" y1="30" x2="50" y2="52"/><circle cx="57" cy="53" r="5"/></svg>
+      </div>
+      <div class="pcard-body">
+        <span class="pcard-cat">Аналитика</span>
+        <h3 class="pcard-name">Газовый хроматограф Shimadzu GC-2030</h3>
+        <ul class="pcard-specs">
+          <li>Детекторы<span class="sv">FID, TCD, ECD</span></li>
+          <li>Темп. колонки<span class="sv">до 450°C</span></li>
+          <li>Газы-носители<span class="sv">N₂, He, H₂, Ar</span></li>
+          <li>Точность темп.<span class="sv">±0.1°C</span></li>
+        </ul>
+        <div class="pcard-foot">
+          <div class="pcard-price"><small>от ₽</small>850 000</div>
+          <button class="pcard-btn" onclick="openModal(this)">Подробнее →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- NEW CARD 2: Спектрофотометр UV-Vis -->
+    <div class="pcard fu" data-cat="аналитика">
+      <div class="pcard-photo" style="background:var(--surface);display:flex;align-items:center;justify-content:center;color:var(--mid)">
+        <svg width="72" height="72" viewBox="0 0 72 72" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="20" width="64" height="30" rx="3"/><circle cx="16" cy="35" r="7"/><line x1="23" y1="35" x2="31" y2="35"/><rect x="31" y="30" width="8" height="10" rx="1.5"/><line x1="39" y1="35" x2="49" y2="35"/><path d="M49 27 L57 35 L49 43"/><path d="M10 54 L13 58 L16 50 L19 58 L22 54 L25 58"/></svg>
+      </div>
+      <div class="pcard-body">
+        <span class="pcard-cat">Аналитика</span>
+        <h3 class="pcard-name">Спектрофотометр UV-2600i Shimadzu</h3>
+        <ul class="pcard-specs">
+          <li>Диапазон<span class="sv">185–900 нм</span></li>
+          <li>Ширина полосы<span class="sv">1 нм</span></li>
+          <li>Фотодиапазон<span class="sv">−4 до +4 Abs</span></li>
+          <li>Шум базовой линии<span class="sv">0.00003 Abs</span></li>
+        </ul>
+        <div class="pcard-foot">
+          <div class="pcard-price"><small>от ₽</small>280 000</div>
+          <button class="pcard-btn" onclick="openModal(this)">Подробнее →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- NEW CARD 3: Автоклав -->
+    <div class="pcard fu" data-cat="термо">
+      <div class="pcard-photo" style="background:var(--surface);display:flex;align-items:center;justify-content:center;color:var(--mid)">
+        <svg width="72" height="72" viewBox="0 0 72 72" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="16" y="14" width="40" height="44" rx="6"/><ellipse cx="36" cy="14" rx="18" ry="6"/><line x1="36" y1="8" x2="36" y2="14"/><circle cx="36" cy="6" r="3.5"/><rect x="27" y="28" width="18" height="14" rx="1.5"/><line x1="27" y1="52" x2="27" y2="60"/><line x1="45" y1="52" x2="45" y2="60"/><line x1="20" y1="60" x2="52" y2="60"/></svg>
+      </div>
+      <div class="pcard-body">
+        <span class="pcard-cat">Термо</span>
+        <h3 class="pcard-name">Автоклав лабораторный Tuttnauer 3870EL</h3>
+        <ul class="pcard-specs">
+          <li>Объём камеры<span class="sv">80 л</span></li>
+          <li>Температура<span class="sv">121–134°C</span></li>
+          <li>Рабочее давление<span class="sv">до 2.2 бар</span></li>
+          <li>Цикл стерилизации<span class="sv">от 20 мин</span></li>
+        </ul>
+        <div class="pcard-foot">
+          <div class="pcard-price"><small>от ₽</small>185 000</div>
+          <button class="pcard-btn" onclick="openModal(this)">Подробнее →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- NEW CARD 4: Ультразвуковая баня -->
+    <div class="pcard fu" data-cat="все">
+      <div class="pcard-photo" style="background:var(--surface);display:flex;align-items:center;justify-content:center;color:var(--mid)">
+        <svg width="72" height="72" viewBox="0 0 72 72" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="8" y="26" width="56" height="30" rx="3"/><path d="M16 41 Q21 33 26 41 Q31 49 36 41 Q41 33 46 41 Q51 49 56 41" stroke-width="2"/><rect x="20" y="16" width="8" height="10" rx="1.5"/><rect x="44" y="16" width="8" height="10" rx="1.5"/><line x1="24" y1="10" x2="24" y2="16"/><line x1="48" y1="10" x2="48" y2="16"/></svg>
+      </div>
+      <div class="pcard-body">
+        <span class="pcard-cat">Расходники</span>
+        <h3 class="pcard-name">Ультразвуковая баня Elma TI-H 15</h3>
+        <ul class="pcard-specs">
+          <li>Объём<span class="sv">15 л</span></li>
+          <li>Частота УЗ<span class="sv">37 кГц</span></li>
+          <li>Мощность УЗ<span class="sv">450 Вт</span></li>
+          <li>Нагрев<span class="sv">до 80°C</span></li>
+        </ul>
+        <div class="pcard-foot">
+          <div class="pcard-price"><small>от ₽</small>32 000</div>
+          <button class="pcard-btn" onclick="openModal(this)">Подробнее →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- NEW CARD 5: Магнитная мешалка -->
+    <div class="pcard fu" data-cat="измерение">
+      <div class="pcard-photo" style="background:var(--surface);display:flex;align-items:center;justify-content:center;color:var(--mid)">
+        <svg width="72" height="72" viewBox="0 0 72 72" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="10" y="38" width="52" height="20" rx="3"/><ellipse cx="36" cy="38" rx="20" ry="7"/><circle cx="36" cy="38" r="6"/><path d="M30 25 A12 12 0 0 1 42 25" stroke-linecap="round" stroke-width="2"/><path d="M24 20 A18 18 0 0 1 48 20" stroke-linecap="round" stroke-width="2"/><circle cx="53" cy="47" r="4"/></svg>
+      </div>
+      <div class="pcard-body">
+        <span class="pcard-cat">Измерение</span>
+        <h3 class="pcard-name">Магнитная мешалка Heidolph MR Hei-Tec</h3>
+        <ul class="pcard-specs">
+          <li>Скорость<span class="sv">50–1500 об/мин</span></li>
+          <li>Нагрев<span class="sv">до 350°C</span></li>
+          <li>Объём перемешивания<span class="sv">до 15 л</span></li>
+          <li>Плита<span class="sv">145×145 мм</span></li>
+        </ul>
+        <div class="pcard-foot">
+          <div class="pcard-price"><small>от ₽</small>18 500</div>
+          <button class="pcard-btn" onclick="openModal(this)">Подробнее →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- NEW CARD 6: Рефрактометр -->
+    <div class="pcard fu" data-cat="измерение">
+      <div class="pcard-photo" style="background:var(--surface);display:flex;align-items:center;justify-content:center;color:var(--mid)">
+        <svg width="72" height="72" viewBox="0 0 72 72" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="14" y="26" width="44" height="24" rx="3"/><polygon points="14,26 5,38 14,50"/><line x1="25" y1="34" x2="50" y2="34"/><line x1="25" y1="38" x2="50" y2="38"/><line x1="25" y1="42" x2="50" y2="42"/><rect x="53" y="30" width="8" height="14" rx="1.5"/><line x1="61" y1="38" x2="67" y2="38"/></svg>
+      </div>
+      <div class="pcard-body">
+        <span class="pcard-cat">Измерение</span>
+        <h3 class="pcard-name">Рефрактометр Mettler Toledo RE40D</h3>
+        <ul class="pcard-specs">
+          <li>Диапазон nD<span class="sv">1.3200–1.5800</span></li>
+          <li>Точность<span class="sv">±0.0001 nD</span></li>
+          <li>Брикс<span class="sv">0–100%</span></li>
+          <li>Темп. измерений<span class="sv">10–70°C</span></li>
+        </ul>
+        <div class="pcard-foot">
+          <div class="pcard-price"><small>от ₽</small>68 000</div>
+          <button class="pcard-btn" onclick="openModal(this)">Подробнее →</button>
+        </div>
+      </div>
+    </div>
     </div>
 
   </div>
@@ -1083,44 +1261,6 @@ footer{background:#060E1C;padding:5rem 4rem 3rem;border-top:1px solid rgba(255,2
 
 
 
-<!-- PROJECTS -->
-<section class="projects-sec fu" id="projects">
-  <div class="sec-label">Выполненные проекты</div>
-  <h2 class="sec-h">Реализованные<br><em>решения</em></h2>
-  <p class="sec-sub">Оснащаем лаборатории крупнейших предприятий России с 2007 года</p>
-  <div class="projects-grid">
-    <div class="proj-card fu">
-      <span class="proj-tag">Нефтегазовая отрасль</span>
-      <div class="proj-client">Газпром нефть — НПЗ Омск</div>
-      <p class="proj-desc">Комплексное оснащение аналитической лаборатории НПЗ: хроматографы Shimadzu, анализаторы серы, система контроля качества топлива. Поверка и ввод в эксплуатацию.</p>
-      <div class="proj-metrics">
-        <div><span class="proj-m-n">47</span><span class="proj-m-l">единиц</span></div>
-        <div><span class="proj-m-n">6 нед</span><span class="proj-m-l">срок</span></div>
-        <div><span class="proj-m-n">100%</span><span class="proj-m-l">аттестация</span></div>
-      </div>
-    </div>
-    <div class="proj-card fu" style="transition-delay:.1s">
-      <span class="proj-tag">Высшее образование</span>
-      <div class="proj-client">МГУ — Химический факультет</div>
-      <p class="proj-desc">Переоснащение двух исследовательских лабораторий: спектрометры, pH-метры, аналитические весы Mettler Toledo, муфельные печи. Обучение персонала на месте.</p>
-      <div class="proj-metrics">
-        <div><span class="proj-m-n">31</span><span class="proj-m-l">прибор</span></div>
-        <div><span class="proj-m-n">2 лаб</span><span class="proj-m-l">оснащено</span></div>
-        <div><span class="proj-m-n">14 дн</span><span class="proj-m-l">монтаж</span></div>
-      </div>
-    </div>
-    <div class="proj-card fu" style="transition-delay:.2s">
-      <span class="proj-tag">Фармацевтика</span>
-      <div class="proj-client">Фармстандарт — ОТК</div>
-      <p class="proj-desc">Оснащение отдела технического контроля: ВЭЖХ-системы Thermo Fisher, микроскопы Zeiss, центрифуги Eppendorf. Поверка СИ и сертификация под GMP.</p>
-      <div class="proj-metrics">
-        <div><span class="proj-m-n">28</span><span class="proj-m-l">единиц</span></div>
-        <div><span class="proj-m-n">GMP</span><span class="proj-m-l">сертификат</span></div>
-        <div><span class="proj-m-n">8 нед</span><span class="proj-m-l">проект</span></div>
-      </div>
-    </div>
-  </div>
-</section>
 <!-- LEASING -->
 <section class="leasing-sec fu" id="leasing">
   <div class="sec-label">Финансирование</div>
@@ -1393,16 +1533,390 @@ document.querySelectorAll('.filt').forEach(b => b.addEventListener('click', func
   filterCatalog(this.dataset.filter);
 }));
 
+// PRODUCTS DATA
+const PRODUCTS_DATA = [
+  {
+    name: 'Микроскоп бинокулярный BX-550 Pro',
+    cat: 'Оптика · Микроскопия',
+    brand: 'BX Series',
+    origin: 'Япония',
+    price: 'от <small>₽</small> 85 000',
+    delivery: 'Срок: 10–14 дней',
+    warranty: 'Гарантия 3 года',
+    desc: 'Профессиональный бинокулярный микроскоп для клинических и исследовательских лабораторий. Оптика Plan Achromat обеспечивает чёткое, плоское изображение по всему полю зрения без аберраций.',
+    specs: [
+      ['Увеличение', '40× — 1600×'],
+      ['Объективы', 'Plan Achromat, 4 шт'],
+      ['Окуляры', '10×/22 мм, WF'],
+      ['Осветитель', 'LED 3 Вт, регулируемый'],
+      ['Конденсор', 'Аbbe NA 1.25 с ирис-диафрагмой'],
+      ['Стол', 'X/Y механич., 75×50 мм'],
+      ['Гарантия', '3 года'],
+    ],
+    apps: ['Клинические лаборатории и больницы','Учебные заведения и университеты','Биологические и микробиологические исследования','Контроль качества фармацевтической продукции','Ветеринарные лаборатории'],
+    docs: ['Паспорт изделия','Руководство пользователя','Свидетельство о поверке','Сертификат соответствия ГОСТ']
+  },
+  {
+    name: 'УФ-Вид спектрофотометр UV-1900i',
+    cat: 'Аналитика · Спектроскопия',
+    brand: 'Shimadzu',
+    origin: 'Япония',
+    price: 'от <small>₽</small> 345 000',
+    delivery: 'Срок: 14–21 день',
+    warranty: 'Гарантия 2 года',
+    desc: 'Двулучевой УФ-Вид спектрофотометр нового поколения с расширенным спектральным диапазоном 190–1100 нм. Встроенный ПК и цветной сенсорный дисплей обеспечивают автономную работу без компьютера.',
+    specs: [
+      ['Диапазон длин волн', '190–1100 нм'],
+      ['Точность длины волны', '±0.3 нм'],
+      ['Фотометр. точность', '±0.002 Abs'],
+      ['Диапазон фотометра', '-4 до +4 Abs'],
+      ['Ширина щели', '1 нм (фикс.)'],
+      ['Интерфейс', 'USB, LAN, RS-232'],
+      ['Гарантия', '2 года'],
+    ],
+    apps: ['Количественный анализ растворов','Анализ нуклеиновых кислот и белков','Мониторинг качества воды','Фармацевтический анализ','Пищевая промышленность'],
+    docs: ['Паспорт изделия','Инструкция по эксплуатации','Методики анализа UV-Vis','Свидетельство о поверке СИ']
+  },
+  {
+    name: 'Центрифуга рефрижераторная CR-5000R',
+    cat: 'Разделение · Центрифуги',
+    brand: 'CR Series',
+    origin: 'Германия',
+    price: 'от <small>₽</small> 385 000',
+    delivery: 'Срок: 14–21 день',
+    warranty: 'Гарантия 2 года',
+    desc: 'Высокоскоростная рефрижераторная центрифуга с программируемыми профилями ускорения и замедления. Охлаждение до −20°C позволяет работать с термолабильными образцами.',
+    specs: [
+      ['Макс. скорость', '15 000 об/мин'],
+      ['Макс. ОЦС', '21 000 × g'],
+      ['Темп. диапазон', '−20…+40°C'],
+      ['Ёмкость ротора', '6 × 50 мл'],
+      ['Хладагент', 'CFC-free, R134a'],
+      ['Уровень шума', '≤ 58 дБ'],
+      ['Гарантия', '2 года'],
+    ],
+    apps: ['Разделение клеточных суспензий','Осаждение бактерий и дрожжей','Фракционирование субклеточных компонентов','Подготовка сывороток и плазмы','Обработка ДНК/РНК образцов'],
+    docs: ['Паспорт изделия','Руководство по ротору','Журнал технического обслуживания','Сертификат безопасности']
+  },
+  {
+    name: 'Флуоресцентный микроскоп FL-200',
+    cat: 'Оптика · Флуоресценция',
+    brand: 'FL Series',
+    origin: 'Германия',
+    price: 'от <small>₽</small> 480 000',
+    delivery: 'Срок: 21–30 дней',
+    warranty: 'Гарантия 2 года',
+    desc: 'Флуоресцентный микроскоп с 4-канальным LED-источником для одновременной визуализации нескольких флуоресцентных меток. Встроенная 16 МП sCMOS-камера для документирования результатов.',
+    specs: [
+      ['Увеличение', '40× — 1000×'],
+      ['Флуор. каналы', 'DAPI / FITC / TRITC / Cy5'],
+      ['Источник', 'LED 4-канальный, 100 мВт'],
+      ['Камера', '16 МП sCMOS'],
+      ['Объективы', 'Plan Fluor, NA 1.3'],
+      ['Фильтры', 'Набор из 6 кубов'],
+      ['Гарантия', '2 года'],
+    ],
+    apps: ['Иммунофлуоресцентный анализ','Визуализация живых клеток','FISH-анализ хромосом','Нейробиологические исследования','Анализ экспрессии белков'],
+    docs: ['Паспорт изделия','Руководство по флуоресценции','Описание фильтровых кубов','Сертификат соответствия']
+  },
+  {
+    name: 'Газовый хроматограф GC-2030',
+    cat: 'Аналитика · Хроматография',
+    brand: 'Shimadzu',
+    origin: 'Япония',
+    price: 'от <small>₽</small> 850 000',
+    delivery: 'Срок: 30–45 дней',
+    warranty: 'Гарантия 2 года',
+    desc: 'Флагманский газовый хроматограф серии Nexis GC-2030 с передовой системой AFC (Advanced Flow Controller). Обеспечивает воспроизводимость результатов ±0.01% RSD и поддерживает до 4 детекторов одновременно.',
+    specs: [
+      ['Детекторы', 'FID, TCD, ECD, FPD'],
+      ['Точность', '±0.01% RSD'],
+      ['Время анализа', 'от 2 мин'],
+      ['Темп. колонки', 'до 450°C'],
+      ['AFC', 'электронный, 0.001 кПа'],
+      ['ПО', 'LabSolutions'],
+      ['Гарантия', '2 года'],
+    ],
+    apps: ['Анализ летучих органических соединений','Контроль качества нефтепродуктов','Анализ остатков пестицидов','Экологический мониторинг воздуха','Пищевая безопасность'],
+    docs: ['Паспорт изделия','Инструкция LabSolutions','Методика анализа ЛОС','Свидетельство о поверке СИ']
+  },
+  {
+    name: 'Весы аналитические AB-204',
+    cat: 'Измерение · Весы',
+    brand: 'Mettler Toledo',
+    origin: 'Швейцария',
+    price: 'от <small>₽</small> 98 000',
+    delivery: 'Срок: 7–14 дней',
+    warranty: 'Гарантия 3 года',
+    desc: 'Аналитические весы с дискретностью 0.1 мг и максимальной нагрузкой 220 г. Встроенная юстировка ProFACT с автоматической компенсацией температурных изменений обеспечивает точность без ручной калибровки.',
+    specs: [
+      ['Максимум', '220 г'],
+      ['Дискретность', '0.1 мг'],
+      ['Воспроизводимость', '±0.1 мг'],
+      ['Линейность', '±0.2 мг'],
+      ['Калибровка', 'ProFACT авто'],
+      ['Интерфейс', 'RS-232, USB'],
+      ['Гарантия', '3 года'],
+    ],
+    apps: ['Точное взвешивание реактивов','Приготовление стандартных растворов','Проверка массы фармпрепаратов','Контроль качества ювелирных изделий','Исследовательские лаборатории'],
+    docs: ['Паспорт изделия','Свидетельство о поверке','Сертификат OIML R76','Инструкция по эксплуатации']
+  },
+  {
+    name: 'Муфельная печь MF-1200',
+    cat: 'Термическое · Муфельные печи',
+    brand: 'MF Series',
+    origin: 'Германия',
+    price: 'от <small>₽</small> 82 000',
+    delivery: 'Срок: 10–14 дней',
+    warranty: 'Гарантия 2 года',
+    desc: 'Лабораторная муфельная печь с максимальной температурой 1200°C и объёмом камеры 3 литра. Керамический нагревательный элемент из карбида кремния обеспечивает равномерный прогрев и долгий ресурс.',
+    specs: [
+      ['Макс. температура', '1200°C'],
+      ['Объём камеры', '3 л'],
+      ['Точность', '±3°C'],
+      ['Нагрев до 1000°C', '45 мин'],
+      ['Нагрев. элемент', 'SiC, карбид кремния'],
+      ['Программатор', '10 сегментов'],
+      ['Гарантия', '2 года'],
+    ],
+    apps: ['Озоление проб для хим. анализа','Термообработка и отжиг металлов','Синтез керамических материалов','Испытание на термостойкость','Определение золы в органических образцах'],
+    docs: ['Паспорт изделия','Руководство по эксплуатации','Программы термических режимов','Сертификат соответствия']
+  },
+  {
+    name: 'Микроцентрифуга MC-24',
+    cat: 'Разделение · Микроцентрифуги',
+    brand: 'MC Series',
+    origin: 'Германия',
+    price: 'от <small>₽</small> 145 000',
+    delivery: 'Срок: 7–14 дней',
+    warranty: 'Гарантия 2 года',
+    desc: 'Компактная высокоскоростная микроцентрифуга для пробирок 1.5/2.0 мл. Угловой ротор на 24 позиции развивает скорость до 24 000 об/мин (30 000 × g). Тихий двигатель без щёток с ресурсом > 10 000 часов.',
+    specs: [
+      ['Макс. скорость', '24 000 об/мин'],
+      ['Макс. ОЦС', '30 000 × g'],
+      ['Ёмкость', '24 × 1.5/2.0 мл'],
+      ['Ускор./замедл.', '10 уровней'],
+      ['Уровень шума', '≤ 55 дБ'],
+      ['Двигатель', 'бесщёточный DC'],
+      ['Гарантия', '2 года'],
+    ],
+    apps: ['Осаждение нуклеиновых кислот','ПЦР и молекулярная биология','Очистка белков методом ультрацентрифугирования','Клинические экспресс-анализы','Разделение микробных культур'],
+    docs: ['Паспорт изделия','Руководство по ротору','Таблица скоростей и ОЦС','Сертификат безопасности IEC']
+  },
+  {
+    name: 'pH-метр лабораторный pH-510',
+    cat: 'Измерение · pH-метрия',
+    brand: 'pH-500 Series',
+    origin: 'Россия',
+    price: 'от <small>₽</small> 22 000',
+    delivery: 'Срок: 3–7 дней',
+    warranty: 'Гарантия 2 года',
+    desc: 'Настольный лабораторный pH-метр с большим цветным дисплеем и многоточечной автоматической калибровкой по 5 буферным растворам. Включён комбинированный стеклянный электрод и датчик температуры.',
+    specs: [
+      ['Диапазон pH', '0.00 — 14.00'],
+      ['Точность', '±0.01 pH'],
+      ['mV диапазон', '±1999.9 мВ'],
+      ['Темп. диапазон', '0…100°C'],
+      ['Калибровка', 'до 5 точек, авто'],
+      ['Интерфейс', 'RS-232, USB'],
+      ['Гарантия', '2 года'],
+    ],
+    apps: ['Контроль качества воды', 'Анализ почвенных вытяжек', 'Пищевая промышленность', 'Фармацевтический контроль', 'Экологические исследования'],
+    docs: ['Паспорт изделия','Методика поверки','Руководство по эксплуатации','Свидетельство об утверждении типа СИ']
+  },
+  {
+    name: 'Газовый хроматограф Shimadzu GC-2030',
+    cat: 'Аналитика',
+    brand: 'Shimadzu',
+    origin: 'Япония',
+    price: 'от <small>₽</small> 850 000',
+    delivery: 'Срок: 30–45 дней',
+    warranty: 'Гарантия 2 года',
+    desc: 'Shimadzu GC-2030 — передовой газовый хроматограф с интеллектуальной системой AFC (Advanced Flow Controller). Поддерживает 4 детектора одновременно. Обеспечивает воспроизводимость ±0.01% RSD.',
+    specs: [
+      ['Детекторы', 'FID, TCD, ECD, FPD'],
+      ['Темп. колонки', 'до 450°C'],
+      ['Газы-носители', 'N₂, He, H₂, Ar'],
+      ['Точность темп.', '±0.1°C'],
+      ['AFC', 'электронный, 0.001 кПа'],
+      ['Интерфейс', 'USB, LAN, LabSolutions'],
+      ['Гарантия', '2 года'],
+    ],
+    apps: ['Анализ нефтехимических продуктов','Остатки пестицидов в пищевых продуктах','Качество окружающей воздушной среды','Медицинские и судебные анализы','Контроль чистоты растворителей'],
+    docs: ['Паспорт изделия','Shimadzu LabSolutions Guide','Методика анализа ЛОС','Свидетельство о поверке СИ']
+  },
+  {
+    name: 'Спектрофотометр UV-2600i Shimadzu',
+    cat: 'Аналитика',
+    brand: 'Shimadzu',
+    origin: 'Япония',
+    price: 'от <small>₽</small> 280 000',
+    delivery: 'Срок: 21–30 дней',
+    warranty: 'Гарантия 2 года',
+    desc: 'Shimadzu UV-2600i — двулучевой спектрофотометр с расширенным диапазоном 185–900 нм. Интегрированная интегрирующая сфера ISR-2600Plus позволяет измерять твёрдые образцы и покрытия.',
+    specs: [
+      ['Диапазон', '185–900 нм'],
+      ['Ширина полосы', '1 нм'],
+      ['Фотодиапазон', '−4 до +4 Abs'],
+      ['Шум базовой линии', '0.00003 Abs'],
+      ['Дрейф', '0.0001 Abs/ч'],
+      ['Интерфейс', 'USB, LAN'],
+      ['Гарантия', '2 года'],
+    ],
+    apps: ['Количественный и качественный анализ','Кинетические измерения','Спектры поглощения','Анализ ДНК/РНК и белков','Фармацевтический и пищевой контроль'],
+    docs: ['Паспорт изделия','Shimadzu UVProbe Guide','Методика анализа белков','Свидетельство о поверке СИ']
+  },
+  {
+    name: 'Автоклав лабораторный Tuttnauer 3870EL',
+    cat: 'Термо',
+    brand: 'Tuttnauer',
+    origin: 'Нидерланды',
+    price: 'от <small>₽</small> 185 000',
+    delivery: 'Срок: 14–21 день',
+    warranty: 'Гарантия 2 года',
+    desc: 'Вертикальный лабораторный автоклав Tuttnauer 3870EL объёмом 80 л с тройным вакуумированием для стерилизации пористых материалов, жидкостей и инструментов. Соответствует EN 13060 класс B.',
+    specs: [
+      ['Объём камеры', '80 л'],
+      ['Температура', '121°C / 134°C'],
+      ['Рабочее давление', 'до 2.2 бар'],
+      ['Цикл стерилизации', 'от 20 мин'],
+      ['Вакуумирование', 'тройное, фракционное'],
+      ['Стандарт', 'EN 13060 класс B'],
+      ['Гарантия', '2 года'],
+    ],
+    apps: ['Стерилизация лабораторного стекла','Обеззараживание биологических отходов','Стерилизация тканевых культур','Медицинские инструменты','Стерилизация пористых материалов'],
+    docs: ['Паспорт изделия','Руководство оператора','Протокол валидации','Сертификат CE и соответствия ГОСТ']
+  },
+  {
+    name: 'Ультразвуковая баня Elma TI-H 15',
+    cat: 'Расходники',
+    brand: 'Elma Schmidbauer',
+    origin: 'Германия',
+    price: 'от <small>₽</small> 32 000',
+    delivery: 'Срок: 7–14 дней',
+    warranty: 'Гарантия 2 года',
+    desc: 'Профессиональная ультразвуковая мойка-баня Elma TI-H 15 объёмом 15 л с нагревом до 80°C. Секунды до рабочей температуры, равномерное распределение ультразвука по всей ванне.',
+    specs: [
+      ['Объём', '15 л'],
+      ['Частота УЗ', '37 кГц'],
+      ['Мощность УЗ', '450 Вт (пиковая)'],
+      ['Нагрев', 'до 80°C'],
+      ['Таймер', '1–99 мин или непрерывно'],
+      ['Внутр. размеры', '300×240×150 мм'],
+      ['Гарантия', '2 года'],
+    ],
+    apps: ['Очистка лабораторного стекла','Дегазация растворителей','Подготовка проб для ВЭЖХ/ГХ','Чистка ювелирных изделий','Медицинские и стоматологические инструменты'],
+    docs: ['Паспорт изделия','Инструкция по эксплуатации','Протокол очистки','Сертификат CE']
+  },
+  {
+    name: 'Магнитная мешалка Heidolph MR Hei-Tec',
+    cat: 'Измерение',
+    brand: 'Heidolph',
+    origin: 'Германия',
+    price: 'от <small>₽</small> 18 500',
+    delivery: 'Срок: 7–10 дней',
+    warranty: 'Гарантия 3 года',
+    desc: 'Прецизионная магнитная мешалка с подогревом Heidolph MR Hei-Tec с цифровой индикацией температуры и скорости. Керамическая нагревательная поверхность 145×145 мм устойчива к большинству химических реагентов.',
+    specs: [
+      ['Скорость', '50–1500 об/мин'],
+      ['Нагрев', 'до 350°C'],
+      ['Объём перемешивания', 'до 15 л'],
+      ['Плита', '145×145 мм, керамика'],
+      ['Точность темп.', '±1°C (внешний датч.)'],
+      ['Вес', '1.5 кг'],
+      ['Гарантия', '3 года'],
+    ],
+    apps: ['Приготовление буферных растворов','Синтез в органической химии','Растворение реактивов','Смешивание вязких сред','Инкубация при заданной температуре'],
+    docs: ['Паспорт изделия','Инструкция Heidolph','Сертификат CE','Схема подключения датчика']
+  },
+  {
+    name: 'Рефрактометр Mettler Toledo RE40D',
+    cat: 'Измерение',
+    brand: 'Mettler Toledo',
+    origin: 'Швейцария',
+    price: 'от <small>₽</small> 68 000',
+    delivery: 'Срок: 14–21 день',
+    warranty: 'Гарантия 2 года',
+    desc: 'Автоматический цифровой рефрактометр Mettler Toledo RE40D с термостатируемой измерительной ячейкой. Измерение показателя преломления и концентрации сахара (Brix) с высокой точностью за 3 секунды.',
+    specs: [
+      ['Диапазон nD', '1.3200–1.5800'],
+      ['Точность', '±0.0001 nD'],
+      ['Брикс', '0–100%'],
+      ['Темп. измерений', '10–70°C'],
+      ['Точность темп.', '±0.1°C'],
+      ['Объём пробы', '0.15 мл'],
+      ['Гарантия', '2 года'],
+    ],
+    apps: ['Контроль концентрации сахаров','Анализ алкогольных напитков','Нефтехимическая промышленность','Фармацевтика — определение чистоты','Производство полимеров и смол'],
+    docs: ['Паспорт изделия','Руководство RE40D','Методика ASTM D1218','Свидетельство о поверке СИ']
+  }
+];
+
 // MODAL
 function openModal(btn) {
+  const cards = Array.from(document.querySelectorAll('.pcard'));
   const card = btn.closest('.pcard');
+  const idx = cards.indexOf(card);
+  const d = (idx >= 0 && PRODUCTS_DATA[idx]) ? PRODUCTS_DATA[idx] : null;
+
+  // Image
   const imgEl = card.querySelector('.pcard-photo img');
-  document.getElementById('modal-img').src = imgEl ? imgEl.src : '';
-  document.getElementById('modal-img').alt = card.querySelector('.pcard-name').textContent;
-  document.getElementById('modal-cat').textContent = card.querySelector('.pcard-cat').textContent;
-  document.getElementById('modal-name').textContent = card.querySelector('.pcard-name').textContent;
-  document.getElementById('modal-price').innerHTML = card.querySelector('.pcard-price').innerHTML;
-  document.getElementById('modal-specs').innerHTML = card.querySelector('.pcard-specs').innerHTML;
+  const modalImg = document.getElementById('modal-img');
+  if (imgEl && imgEl.src && imgEl.src !== window.location.href) {
+    modalImg.src = imgEl.src;
+    modalImg.style.display = '';
+  } else {
+    modalImg.src = '';
+    modalImg.style.display = 'none';
+  }
+
+  if (d) {
+    document.getElementById('modal-brand').textContent = d.brand || '';
+    document.getElementById('modal-origin').textContent = d.origin ? '· ' + d.origin : '';
+    document.getElementById('modal-warranty-badge').textContent = d.warranty || '';
+    document.getElementById('modal-cat').textContent = d.cat || '';
+    document.getElementById('modal-name').textContent = d.name || '';
+    document.getElementById('modal-price').innerHTML = d.price || '';
+    document.getElementById('modal-delivery-pill').textContent = d.delivery || '';
+    document.getElementById('modal-desc').textContent = d.desc || '';
+
+    // Specs
+    const specsList = document.getElementById('modal-specs');
+    specsList.innerHTML = d.specs.map(([k,v]) =>
+      `<li><span>${k}</span><span class="sv">${v}</span></li>`
+    ).join('');
+
+    // Apps
+    const appsList = document.getElementById('modal-apps');
+    appsList.innerHTML = d.apps.map(a =>
+      `<li style="font-size:12px;color:#6B98CC;padding:5px 0;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:.5rem"><span style="color:var(--green)">→</span>${a}</li>`
+    ).join('');
+
+    // Docs
+    const docsEl = document.getElementById('modal-docs');
+    docsEl.innerHTML = d.docs.map(doc =>
+      `<div style="display:flex;align-items:center;gap:.6rem;padding:6px 0;border-bottom:1px solid var(--border);font-size:12px;color:#6B98CC"><span style="color:var(--blue);font-size:14px">📄</span>${doc}</div>`
+    ).join('');
+  } else {
+    document.getElementById('modal-brand').textContent = '';
+    document.getElementById('modal-origin').textContent = '';
+    document.getElementById('modal-warranty-badge').textContent = '';
+    document.getElementById('modal-cat').textContent = card.querySelector('.pcard-cat').textContent;
+    document.getElementById('modal-name').textContent = card.querySelector('.pcard-name').textContent;
+    document.getElementById('modal-price').innerHTML = card.querySelector('.pcard-price').innerHTML;
+    document.getElementById('modal-delivery-pill').textContent = '';
+    document.getElementById('modal-desc').textContent = '';
+    document.getElementById('modal-specs').innerHTML = card.querySelector('.pcard-specs').innerHTML;
+    document.getElementById('modal-apps').innerHTML = '';
+    document.getElementById('modal-docs').innerHTML = '';
+  }
+
+  // Reset tabs
+  document.querySelectorAll('.modal-tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.modal-panel').forEach(p => p.style.display = 'none');
+  document.querySelector('.modal-tab-btn[data-panel="modal-panel-specs"]').classList.add('active');
+  document.getElementById('modal-panel-specs').style.display = '';
+
   document.getElementById('modal').classList.add('open');
   document.body.style.overflow = 'hidden';
 }
@@ -1418,6 +1932,16 @@ document.getElementById('modal-cta-btn').addEventListener('click', () => {
   setTimeout(() => document.getElementById('cta').scrollIntoView({ behavior: 'smooth' }), 200);
 });
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+// MODAL TABS
+document.querySelectorAll('.modal-tab-btn').forEach(btn => {
+  btn.addEventListener('click', function() {
+    const panelId = this.dataset.panel;
+    document.querySelectorAll('.modal-tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.modal-panel').forEach(p => p.style.display = 'none');
+    this.classList.add('active');
+    document.getElementById(panelId).style.display = '';
+  });
+});
 
 // NAV SHADOW
 window.addEventListener('scroll', () => {
