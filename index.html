@@ -1136,78 +1136,121 @@ function ctaSubmit(e) {
 </script>
 <script>
 (function(){
-  var el=document.getElementById('dna-canvas');
-  if(!el)return;
-  var ns='http://www.w3.org/2000/svg';
-  var W=500,H=900;
-  var svg=document.createElementNS(ns,'svg');
-  svg.setAttribute('viewBox','0 0 '+W+' '+H);
-  svg.setAttribute('preserveAspectRatio','xMidYMid slice');
-  svg.style.cssText='width:100%;height:100%;';
-  var period=200,amp=80,cx=W/2;
-  // Defs - radial glow
-  var defs=document.createElementNS(ns,'defs');
-  var rg=document.createElementNS(ns,'radialGradient');
-  rg.id='dna-bg-grad';rg.setAttribute('cx','55%');rg.setAttribute('cy','35%');rg.setAttribute('r','65%');
-  var s1=document.createElementNS(ns,'stop');s1.setAttribute('offset','0%');s1.setAttribute('stop-color','#1055C8');s1.setAttribute('stop-opacity','0.12');
-  var s2=document.createElementNS(ns,'stop');s2.setAttribute('offset','100%');s2.setAttribute('stop-color','#061438');s2.setAttribute('stop-opacity','0');
-  rg.appendChild(s1);rg.appendChild(s2);defs.appendChild(rg);svg.appendChild(defs);
-  var bg=document.createElementNS(ns,'rect');
-  bg.setAttribute('width',W);bg.setAttribute('height',H);bg.setAttribute('fill','url(#dna-bg-grad)');
-  svg.appendChild(bg);
-  // Base pairs
-  var bpG=document.createElementNS(ns,'g');
-  for(var y=8;y<=H-8;y+=14){
-    var a=(y/period)*Math.PI*2;
-    var s=Math.sin(a);
-    var abS=Math.abs(s);
-    if(abS<0.12)continue;
-    var xa=cx+amp*s,xb=cx-amp*s;
-    var ln=document.createElementNS(ns,'line');
-    ln.setAttribute('x1',xa.toFixed(1));ln.setAttribute('y1',y);
-    ln.setAttribute('x2',xb.toFixed(1));ln.setAttribute('y2',y);
-    ln.setAttribute('stroke',s>0?'rgba(23,160,96,0.75)':'rgba(16,85,200,0.75)');
-    ln.setAttribute('stroke-width',(0.8+abS*1.6).toFixed(1));
-    ln.setAttribute('opacity',(0.12+abS*0.55).toFixed(2));
-    ln.setAttribute('stroke-linecap','round');
-    bpG.appendChild(ln);
+  var container=document.getElementById('dna-canvas');
+  if(!container)return;
+  var canvas=document.createElement('canvas');
+  canvas.style.cssText='position:absolute;inset:0;width:100%;height:100%;';
+  container.appendChild(canvas);
+
+  function setup(){
+    var r=container.getBoundingClientRect();
+    canvas.width=Math.round(r.width)||600;
+    canvas.height=Math.round(r.height)||700;
+    render();
   }
-  svg.appendChild(bpG);
-  // Strand path builder
-  function buildPath(phase,color){
-    var pts=[];
-    for(var y=0;y<=H;y+=3)pts.push([cx+amp*Math.sin((y/period)*Math.PI*2+phase),y]);
-    var d='M'+pts[0][0].toFixed(1)+',0';
-    for(var i=1;i<pts.length-1;i++){
-      var mx=((pts[i][0]+pts[i+1][0])/2).toFixed(1);
-      var my=((pts[i][1]+pts[i+1][1])/2).toFixed(1);
-      d+=' Q'+pts[i][0].toFixed(1)+','+pts[i][1]+' '+mx+','+my;
+
+  function render(){
+    var ctx=canvas.getContext('2d');
+    var W=canvas.width,H=canvas.height;
+
+    /* ── Background ── */
+    var bg=ctx.createRadialGradient(W*.42,H*.44,0,W*.5,H*.5,Math.max(W,H)*.9);
+    bg.addColorStop(0,'#2585F5');bg.addColorStop(.28,'#1248B8');
+    bg.addColorStop(.65,'#081C5A');bg.addColorStop(1,'#03091C');
+    ctx.fillStyle=bg;ctx.fillRect(0,0,W,H);
+
+    /* scattered bokeh dots */
+    for(var i=0;i<60;i++){
+      var bx=W*(i*0.137%1),by=H*(i*0.317%1),br=1+i%4;
+      ctx.beginPath();ctx.arc(bx,by,br,0,Math.PI*2);
+      ctx.fillStyle='rgba(120,200,255,'+(0.05+i%3*0.04)+')';ctx.fill();
     }
-    var p=document.createElementNS(ns,'path');
-    p.setAttribute('d',d);p.setAttribute('stroke',color);
-    p.setAttribute('stroke-width','2.8');p.setAttribute('fill','none');
-    p.setAttribute('opacity','0.9');
-    return p;
+
+    /* ── Ghost helices (background, blurred) ── */
+    ctx.save();ctx.globalAlpha=.18;ctx.filter='blur(7px)';
+    drawHelix(ctx,W*.1,H*.5,W*.065,H*1.2,H*.38,3.5,false);
+    ctx.restore();
+    ctx.save();ctx.globalAlpha=.12;ctx.filter='blur(10px)';
+    drawHelix(ctx,W*.9,H*.46,W*.055,H*1.0,H*.34,2.5,false);
+    ctx.restore();
+    ctx.save();ctx.globalAlpha=.1;ctx.filter='blur(14px)';
+    drawHelix(ctx,W*.55,H*.8,W*.05,H*.7,H*.3,2,false);
+    ctx.restore();
+
+    /* ── Main helix ── */
+    drawHelix(ctx,W*.5,H*.5,W*.175,H*1.22,H*.44,W*.028,true);
   }
-  svg.appendChild(buildPath(0,'#1055C8'));
-  svg.appendChild(buildPath(Math.PI,'#17A060'));
-  // Glow nodes at peaks
-  for(var y=period/4;y<=H;y+=period/2){
-    var a2=(y/period)*Math.PI*2;
-    var sv=Math.sin(a2);
-    var xa2=cx+amp*sv;
-    var isGreen=sv>0;
-    var col=isGreen?'#17A060':'#1055C8';
-    var halo=document.createElementNS(ns,'circle');
-    halo.setAttribute('cx',xa2.toFixed(1));halo.setAttribute('cy',y);halo.setAttribute('r','12');
-    halo.setAttribute('fill',isGreen?'rgba(23,160,96,0.18)':'rgba(16,85,200,0.18)');
-    svg.appendChild(halo);
-    var dot=document.createElementNS(ns,'circle');
-    dot.setAttribute('cx',xa2.toFixed(1));dot.setAttribute('cy',y);dot.setAttribute('r','4');
-    dot.setAttribute('fill',col);dot.setAttribute('opacity','0.95');
-    svg.appendChild(dot);
+
+  function drawHelix(ctx,cx,cy,xAmp,hH,period,tubeR,main){
+    var yS=cy-hH/2,yE=cy+hH/2,N=main?500:150;
+    var pA=[],pB=[];
+    for(var i=0;i<=N;i++){
+      var y=yS+(i/N)*(yE-yS);
+      var t=((y-yS)/period)*Math.PI*2;
+      pA.push({x:cx+xAmp*Math.cos(t),y:y,z:Math.sin(t)});
+      pB.push({x:cx-xAmp*Math.cos(t),y:y,z:-Math.sin(t)});
+    }
+
+    /* base pairs */
+    var step=Math.max(1,Math.round(N*14/hH));
+    for(var i=0;i<=N;i+=step){
+      var a=pA[i],b=pB[i];
+      var az=Math.abs((a.z+b.z)/2);
+      ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);
+      ctx.lineWidth=main?tubeR*(0.28+az*.22):tubeR*.6;
+      ctx.strokeStyle='rgba(120,210,255,'+(main?(.22+az*.5).toFixed(2):'.25')+')';
+      if(main&&az>.55){ctx.shadowBlur=tubeR*1.8;ctx.shadowColor='rgba(80,170,255,.55)';}
+      ctx.lineCap='round';ctx.stroke();ctx.shadowBlur=0;
+    }
+
+    /* back strands */
+    drawStrand(ctx,pA,tubeR,false,main);
+    drawStrand(ctx,pB,tubeR,false,main);
+    /* front strands */
+    drawStrand(ctx,pA,tubeR,true,main);
+    drawStrand(ctx,pB,tubeR,true,main);
   }
-  el.appendChild(svg);
+
+  function drawStrand(ctx,pts,r,front,main){
+    for(var i=1;i<pts.length;i++){
+      var p=pts[i],pp=pts[i-1];
+      var z=(p.z+pp.z)/2;
+      if(front&&z<0)continue;
+      if(!front&&z>=0)continue;
+      var abZ=Math.abs(z);
+      var lw=main?r*(front?.38+z*.62:.18+abZ*.22):r*(front?.5:.3);
+      ctx.beginPath();ctx.moveTo(pp.x,pp.y);ctx.lineTo(p.x,p.y);
+      ctx.lineWidth=lw;ctx.lineCap='round';
+      if(main){
+        if(front){
+          /* bright cylindrical highlight */
+          var hi=.45+z*.55;
+          var rC=Math.round(25+hi*130),gC=Math.round(90+hi*150),bC=255;
+          ctx.strokeStyle='rgba('+rC+','+gC+','+bC+','+((.6+z*.4)).toFixed(2)+')';
+          ctx.shadowBlur=lw*2.2;ctx.shadowColor='rgba(60,155,255,.65)';
+        }else{
+          var dk=.2+abZ*.18;
+          ctx.strokeStyle='rgba('+Math.round(8+dk*25)+','+Math.round(35+dk*75)+','+Math.round(110+dk*60)+',.72)';
+          ctx.shadowBlur=0;
+        }
+        /* specular highlight stripe (narrow bright line on top of front strand) */
+        if(front&&z>.4){
+          ctx.stroke();
+          ctx.beginPath();ctx.moveTo(pp.x-lw*.15,pp.y);ctx.lineTo(p.x-lw*.15,p.y);
+          ctx.lineWidth=lw*.18;
+          ctx.strokeStyle='rgba(200,240,255,'+(z*.55).toFixed(2)+')';
+          ctx.shadowBlur=0;
+        }
+      }else{
+        ctx.strokeStyle='rgba(60,140,240,.55)';ctx.shadowBlur=0;
+      }
+      ctx.stroke();ctx.shadowBlur=0;
+    }
+  }
+
+  window.addEventListener('resize',function(){setTimeout(setup,120);});
+  if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',setup);}
+  else{setup();}
 })();
 </script>
 <script>
