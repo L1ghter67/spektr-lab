@@ -23,6 +23,8 @@
   --fm:'Space Mono',monospace;
 }
 
+#dna-canvas{animation:dna-pulse 5s ease-in-out infinite}
+@keyframes dna-pulse{0%,100%{opacity:.65}50%{opacity:.9}}
 html{scroll-behavior:smooth}
 body{background:var(--bg);color:#C8DEFF;font-family:var(--fb);font-weight:400;line-height:1.6;overflow-x:hidden}
 img{display:block;max-width:100%}
@@ -118,8 +120,8 @@ nav{
 }
 .hero-img-tag{
   position:absolute;bottom:2rem;left:2rem;right:2rem;
-  display:flex;justify-content:space-between;align-items:center;
-  background:rgba(255,255,255,.96);backdrop-filter:blur(8px);
+  display:flex;align-items:center;
+  background:rgba(10,32,96,.7);backdrop-filter:blur(10px);
   padding:.9rem 1.2rem;border-left:3px solid var(--green);
 }
 .hero-img-tag-txt{font-size:11px;color:#6B98CC;letter-spacing:.05em}
@@ -223,7 +225,7 @@ h2.sec-h em{font-style:normal;color:var(--green)}
 .pcard-specs li{display:flex;justify-content:space-between;font-size:11px;color:#6B98CC;padding:5px 0;border-bottom:1px solid var(--border)}
 .pcard-specs li:last-child{border-bottom:none}
 .pcard-specs .sv{color:#C8DEFF;font-weight:600}
-.pcard-foot{display:flex;justify-content:space-between;align-items:center;margin-top:auto;padding-top:.9rem;border-top:1px solid var(--border)}
+.pcard-foot{display:flex;align-items:center;margin-top:auto;padding-top:.9rem;border-top:1px solid var(--border)}
 .pcard-price{font-family:var(--fd);font-size:1.5rem;font-weight:700;color:#C8DEFF}
 .pcard-price small{font-family:var(--fb);font-size:.7rem;color:#4878B8;font-weight:400;margin-right:2px}
 .pcard-btn{font-family:var(--fb);font-size:11px;font-weight:600;color:var(--blue);background:transparent;border:1.5px solid var(--blue);padding:8px 16px;letter-spacing:.06em;text-transform:uppercase;transition:all .2s}
@@ -367,7 +369,7 @@ footer{background:#060E1C;padding:5rem 4rem 3rem;border-top:1px solid rgba(255,2
 .footer-links{list-style:none;display:flex;flex-direction:column;gap:.6rem}
 .footer-links a{font-size:.85rem;color:rgba(255,255,255,.3);transition:color .2s}
 .footer-links a:hover{color:rgba(255,255,255,.75)}
-.footer-bottom{border-top:1px solid rgba(255,255,255,.06);padding-top:2rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
+.footer-bottom{border-top:1px solid rgba(255,255,255,.06);padding-top:2rem;display:flex;align-items:center;flex-wrap:wrap;gap:1rem}
 .footer-copy{font-family:var(--fm);font-size:10px;color:rgba(255,255,255,.18)}
 .footer-legal{display:flex;gap:2rem}
 .footer-legal a{font-size:10px;color:rgba(255,255,255,.18);transition:color .2s}
@@ -482,24 +484,11 @@ footer{background:#060E1C;padding:5rem 4rem 3rem;border-top:1px solid rgba(255,2
     </div>
   </div>
   <div class="hero-img">
-    <svg style="position:absolute;inset:0;width:100%;height:100%;opacity:.18" viewBox="0 0 900 600" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
-      <circle cx="750" cy="300" r="220" fill="none" stroke="#fff" stroke-width="1"/>
-      <circle cx="750" cy="300" r="150" fill="none" stroke="#17A060" stroke-width="1"/>
-      <circle cx="750" cy="300" r="80" fill="none" stroke="#fff" stroke-width="1"/>
-      <circle cx="750" cy="300" r="18" fill="#17A060" opacity=".6"/>
-      <line x1="530" y1="300" x2="970" y2="300" stroke="#fff" stroke-width=".8"/>
-      <line x1="750" y1="80" x2="750" y2="520" stroke="#fff" stroke-width=".8"/>
-      <circle cx="900" cy="170" r="6" fill="#17A060"/>
-      <circle cx="600" cy="430" r="4" fill="#fff"/>
-      <circle cx="830" cy="450" r="5" fill="#17A060"/>
-      <circle cx="670" cy="150" r="3" fill="#fff"/>
-      <path d="M100 550 Q250 400 400 450 Q500 480 600 350" stroke="#17A060" stroke-width="1.5" fill="none"/>
-      <path d="M50 400 Q200 300 350 320 Q480 340 580 200" stroke="#fff" stroke-width=".8" fill="none"/>
-    </svg>
+    <div id="dna-canvas" style="position:absolute;inset:0;width:100%;height:100%;"></div>
     <div class="hero-img-overlay"></div>
     <div class="hero-img-tag">
       <span class="hero-img-tag-txt">Комплексное оснащение лабораторий</span>
-      <span class="hero-img-tag-badge" id="el-hero-price-from">От 50 000 ₽</span>
+
     </div>
   </div>
 </section>
@@ -1144,6 +1133,82 @@ function ctaSubmit(e) {
   btn.style.cssText = 'background:var(--green);border-color:var(--green);color:#fff';
   setTimeout(() => { btn.textContent = orig; btn.style.cssText = ''; }, 3500);
 }
+</script>
+<script>
+(function(){
+  var el=document.getElementById('dna-canvas');
+  if(!el)return;
+  var ns='http://www.w3.org/2000/svg';
+  var W=500,H=900;
+  var svg=document.createElementNS(ns,'svg');
+  svg.setAttribute('viewBox','0 0 '+W+' '+H);
+  svg.setAttribute('preserveAspectRatio','xMidYMid slice');
+  svg.style.cssText='width:100%;height:100%;';
+  var period=200,amp=80,cx=W/2;
+  // Defs - radial glow
+  var defs=document.createElementNS(ns,'defs');
+  var rg=document.createElementNS(ns,'radialGradient');
+  rg.id='dna-bg-grad';rg.setAttribute('cx','55%');rg.setAttribute('cy','35%');rg.setAttribute('r','65%');
+  var s1=document.createElementNS(ns,'stop');s1.setAttribute('offset','0%');s1.setAttribute('stop-color','#1055C8');s1.setAttribute('stop-opacity','0.12');
+  var s2=document.createElementNS(ns,'stop');s2.setAttribute('offset','100%');s2.setAttribute('stop-color','#061438');s2.setAttribute('stop-opacity','0');
+  rg.appendChild(s1);rg.appendChild(s2);defs.appendChild(rg);svg.appendChild(defs);
+  var bg=document.createElementNS(ns,'rect');
+  bg.setAttribute('width',W);bg.setAttribute('height',H);bg.setAttribute('fill','url(#dna-bg-grad)');
+  svg.appendChild(bg);
+  // Base pairs
+  var bpG=document.createElementNS(ns,'g');
+  for(var y=8;y<=H-8;y+=14){
+    var a=(y/period)*Math.PI*2;
+    var s=Math.sin(a);
+    var abS=Math.abs(s);
+    if(abS<0.12)continue;
+    var xa=cx+amp*s,xb=cx-amp*s;
+    var ln=document.createElementNS(ns,'line');
+    ln.setAttribute('x1',xa.toFixed(1));ln.setAttribute('y1',y);
+    ln.setAttribute('x2',xb.toFixed(1));ln.setAttribute('y2',y);
+    ln.setAttribute('stroke',s>0?'rgba(23,160,96,0.75)':'rgba(16,85,200,0.75)');
+    ln.setAttribute('stroke-width',(0.8+abS*1.6).toFixed(1));
+    ln.setAttribute('opacity',(0.12+abS*0.55).toFixed(2));
+    ln.setAttribute('stroke-linecap','round');
+    bpG.appendChild(ln);
+  }
+  svg.appendChild(bpG);
+  // Strand path builder
+  function buildPath(phase,color){
+    var pts=[];
+    for(var y=0;y<=H;y+=3)pts.push([cx+amp*Math.sin((y/period)*Math.PI*2+phase),y]);
+    var d='M'+pts[0][0].toFixed(1)+',0';
+    for(var i=1;i<pts.length-1;i++){
+      var mx=((pts[i][0]+pts[i+1][0])/2).toFixed(1);
+      var my=((pts[i][1]+pts[i+1][1])/2).toFixed(1);
+      d+=' Q'+pts[i][0].toFixed(1)+','+pts[i][1]+' '+mx+','+my;
+    }
+    var p=document.createElementNS(ns,'path');
+    p.setAttribute('d',d);p.setAttribute('stroke',color);
+    p.setAttribute('stroke-width','2.8');p.setAttribute('fill','none');
+    p.setAttribute('opacity','0.9');
+    return p;
+  }
+  svg.appendChild(buildPath(0,'#1055C8'));
+  svg.appendChild(buildPath(Math.PI,'#17A060'));
+  // Glow nodes at peaks
+  for(var y=period/4;y<=H;y+=period/2){
+    var a2=(y/period)*Math.PI*2;
+    var sv=Math.sin(a2);
+    var xa2=cx+amp*sv;
+    var isGreen=sv>0;
+    var col=isGreen?'#17A060':'#1055C8';
+    var halo=document.createElementNS(ns,'circle');
+    halo.setAttribute('cx',xa2.toFixed(1));halo.setAttribute('cy',y);halo.setAttribute('r','12');
+    halo.setAttribute('fill',isGreen?'rgba(23,160,96,0.18)':'rgba(16,85,200,0.18)');
+    svg.appendChild(halo);
+    var dot=document.createElementNS(ns,'circle');
+    dot.setAttribute('cx',xa2.toFixed(1));dot.setAttribute('cy',y);dot.setAttribute('r','4');
+    dot.setAttribute('fill',col);dot.setAttribute('opacity','0.95');
+    svg.appendChild(dot);
+  }
+  el.appendChild(svg);
+})();
 </script>
 <script>
 (function(){
