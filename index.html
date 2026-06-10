@@ -10,10 +10,10 @@
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 
 :root{
-  --bg:#EFF5FF;
+  --bg:#F0F7FF;
   --surface:#FFFFFF;
-  --dark:#0B1C38;
-  --mid:#3D5C78;
+  --dark:#0A2458;
+  --mid:#1A55A8;
   --light:#7AA0BC;
   --border:#BDD0E8;
   --blue:#1055C8;
@@ -111,7 +111,7 @@ nav{
 .hero-mini-item{display:flex;flex-direction:column;gap:2px}
 .hero-mini-n{font-family:var(--fd);font-size:2.5rem;font-weight:700;color:var(--dark);line-height:1}
 .hero-mini-l{font-size:11px;color:var(--light);letter-spacing:.08em;text-transform:uppercase}
-.hero-img{position:relative;overflow:hidden;background:linear-gradient(160deg,#0B1C38 0%,#1055C8 55%,#0B3A7A 100%)}
+.hero-img{position:relative;overflow:hidden;background:linear-gradient(160deg,#0A2458 0%,#1055C8 55%,#0A3A8A 100%)}
 .hero-img-overlay{
   position:absolute;inset:0;
   background:linear-gradient(135deg,rgba(11,28,56,.6) 0%,transparent 60%);
@@ -170,7 +170,7 @@ h2.sec-h em{font-style:normal;color:var(--green)}
 .cat:nth-child(3),.cat:nth-child(6){border-right:none}
 .cat:nth-child(4),.cat:nth-child(5),.cat:nth-child(6){border-bottom:none}
 .cat:hover{background:var(--dark);color:#fff}
-.cat-bg{position:absolute;inset:0;z-index:0;overflow:hidden;opacity:0;transition:opacity .35s;background:linear-gradient(135deg,#0B1C38 0%,#1055C8 100%)}
+.cat-bg{position:absolute;inset:0;z-index:0;overflow:hidden;opacity:0;transition:opacity .35s;background:linear-gradient(135deg,#0A2458 0%,#1055C8 100%)}
 .cat:hover .cat-bg{opacity:1}
 .cat>*:not(.cat-bg){position:relative;z-index:1}
 .cat-n{font-family:var(--fm);font-size:9px;color:var(--light);letter-spacing:.18em;margin-bottom:1.2rem;display:block;transition:color .25s}
@@ -288,9 +288,9 @@ h2.sec-h em{font-style:normal;color:var(--green)}
 .viz-panel-foot{padding:.75rem 2rem;border-top:1px solid rgba(255,255,255,.07);font-family:var(--fm);font-size:9px;color:rgba(255,255,255,.25);letter-spacing:.08em;text-align:center}
 
 /* PRICING */
-.pricing-sec{padding:6rem 4rem;background:var(--bg)}
-.pricing-head{margin-bottom:3.5rem;border-bottom:1px solid var(--border);padding-bottom:2rem;display:flex;justify-content:space-between;align-items:flex-end}
-.pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+
+
+
 .plan{border:1.5px solid var(--border);padding:2.5rem;display:flex;flex-direction:column;gap:1.5rem;transition:all .3s;background:var(--surface)}
 .plan:hover:not(.plan-hot){border-color:var(--blue);box-shadow:0 8px 32px rgba(16,85,200,.1)}
 .plan-hot{background:var(--dark);color:#fff;border-color:var(--dark)}
@@ -335,7 +335,7 @@ h2.sec-h em{font-style:normal;color:var(--green)}
 .star{color:var(--green);font-size:11px}
 
 /* CTA */
-.cta-sec{background:var(--dark);padding:7rem 4rem;border-top:1px solid rgba(255,255,255,.06)}
+.cta-sec{background:linear-gradient(135deg,#0A2458 0%,#1055C8 60%,#0D6B3A 100%);padding:7rem 4rem;border-top:1px solid rgba(255,255,255,.06)}
 .cta-inner{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center}
 .cta-sec .sec-label{color:rgba(255,255,255,.4)}
 .cta-sec .sec-label::before{background:var(--green)}
@@ -386,7 +386,7 @@ footer{background:#060E1C;padding:5rem 4rem 3rem;border-top:1px solid rgba(255,2
   .hero{grid-template-columns:1fr}
   .hero-img{display:none}
   .hero-text{padding:4rem 2rem}
-  .cats-sec,.catalog-sec,.pricing-sec,.testi-sec,.cta-sec{padding:4rem 2rem}
+  .cats-sec,.catalog-sec,
   .stats{padding:4rem 2rem}
   .stats-grid{grid-template-columns:repeat(2,1fr)}
   .cats-grid{grid-template-columns:1fr 1fr}
@@ -396,7 +396,7 @@ footer{background:#060E1C;padding:5rem 4rem 3rem;border-top:1px solid rgba(255,2
   .cat:nth-child(5),.cat:nth-child(6){border-bottom:none;border-right:none}
   .cat:nth-child(5){border-right:1px solid var(--border)}
   .prod-grid{grid-template-columns:1fr 1fr}
-  .pricing-grid{grid-template-columns:1fr}
+  
   .tgrid{grid-template-columns:1fr}
   .tcard{border-right:none;border-bottom:1px solid var(--border)}
   .tcard:last-child{border-bottom:none}
@@ -449,7 +449,7 @@ footer{background:#060E1C;padding:5rem 4rem 3rem;border-top:1px solid rgba(255,2
   <ul class="nav-links">
     <li><a href="#cats">Продукция</a></li>
     <li><a href="#catalog">Каталог</a></li>
-    <li><a href="#pricing">Цены</a></li>
+    
     <li><a href="#testi">О нас</a></li>
     <li><a href="#cta">Контакты</a></li>
   </ul>
@@ -914,119 +914,6 @@ footer{background:#060E1C;padding:5rem 4rem 3rem;border-top:1px solid rgba(255,2
       </div>
       <canvas id="scanvas"></canvas>
       <div class="viz-panel-foot">Переместите курсор по спектру для управления</div>
-    </div>
-  </div>
-</section>
-
-<!-- PRICING -->
-<section class="pricing-sec" id="pricing">
-  <div class="pricing-head">
-    <div>
-      <div class="sec-label">Тарифы</div>
-      <h2 class="sec-h">Прозрачные условия</h2>
-    </div>
-    <p style="font-size:.9rem;color:var(--mid);max-width:340px;text-align:right;line-height:1.7">Выберите подходящий пакет или запросите индивидуальное предложение под ваш проект.</p>
-  </div>
-  <div class="pricing-grid">
-    <div class="plan fu">
-      <div>
-        <div class="plan-tier">Базовый</div>
-        <div class="plan-price-wrap"><span class="plan-price-from">от ₽</span><span class="plan-price">50K</span></div>
-        <p class="plan-desc">Для учебных заведений и небольших лабораторий с ограниченным бюджетом.</p>
-      </div>
-      <div class="plan-div"></div>
-      <ul class="plan-feats">
-        <li class="y">Оборудование из базового каталога</li>
-        <li class="y">Доставка по России</li>
-        <li class="y">Гарантия 1 год</li>
-        <li class="y">Техническая документация</li>
-        <li>Монтаж и пуско-наладка</li>
-        <li>Выезд специалиста</li>
-        <li>Обучение персонала</li>
-      </ul>
-      <button class="plan-btn plan-btn-out" onclick="document.getElementById('cta').scrollIntoView({behavior:'smooth'})">Запросить КП</button>
-    </div>
-    <div class="plan plan-hot fu" style="transition-delay:.1s">
-      <div>
-        <div class="plan-tier">Профессиональный</div>
-        <div class="plan-price-wrap"><span class="plan-price-from">от ₽</span><span class="plan-price">250K</span></div>
-        <p class="plan-desc">Для производственных предприятий и исследовательских лабораторий.</p>
-      </div>
-      <div class="plan-div"></div>
-      <ul class="plan-feats">
-        <li class="y">Полный каталог с приоритетом</li>
-        <li class="y">Экспресс-доставка</li>
-        <li class="y">Гарантия 2 года</li>
-        <li class="y">Монтаж и пуско-наладка</li>
-        <li class="y">Выезд специалиста</li>
-        <li class="y">Обучение 2 специалистов</li>
-        <li>Ежегодное плановое ТО</li>
-      </ul>
-      <button class="plan-btn plan-btn-inv" onclick="document.getElementById('cta').scrollIntoView({behavior:'smooth'})">Запросить КП</button>
-    </div>
-    <div class="plan fu" style="transition-delay:.2s">
-      <div>
-        <div class="plan-tier">Корпоративный</div>
-        <div class="plan-price-wrap"><span class="plan-price" style="font-size:2rem">По запросу</span></div>
-        <p class="plan-desc">Для крупных предприятий, НИИ и государственных структур. Полное оснащение «под ключ».</p>
-      </div>
-      <div class="plan-div"></div>
-      <ul class="plan-feats">
-        <li class="y">Индивидуальный подбор</li>
-        <li class="y">Рассрочка / лизинг</li>
-        <li class="y">Гарантия 3+ года</li>
-        <li class="y">Монтаж и поверка СИ</li>
-        <li class="y">Обучение всего персонала</li>
-        <li class="y">Плановое ТО включено</li>
-        <li class="y">Персональный менеджер</li>
-      </ul>
-      <button class="plan-btn plan-btn-out" onclick="document.getElementById('cta').scrollIntoView({behavior:'smooth'})">Обсудить проект</button>
-    </div>
-  </div>
-</section>
-
-<!-- TESTIMONIALS -->
-<section class="testi-sec" id="testi">
-  <div class="testi-head">
-    <div class="sec-label">Отзывы клиентов</div>
-    <h2 class="sec-h">Нам доверяют<br><em>ведущие предприятия</em></h2>
-  </div>
-  <div class="tgrid">
-    <div class="tcard fu">
-      <div class="tq">"</div>
-      <p class="ttext">Spektr Lab оснастили нашу ЦЗЛ «под ключ» — от подбора до обучения персонала. Все сроки соблюдены, документация в порядке. Особо отмечаем оперативность сервисной службы — любая проблема решается за сутки.</p>
-      <div class="tauthor">
-        <div class="tavatar">АС</div>
-        <div>
-          <div class="ta-name">Андрей Смирнов</div>
-          <div class="ta-role">Зав. лабораторией · ОАО «Нефтехим»</div>
-          <div class="stars">★★★★★</div>
-        </div>
-      </div>
-    </div>
-    <div class="tcard fu" style="transition-delay:.1s">
-      <div class="tq">"</div>
-      <p class="ttext">Закупили партию микроскопов для кафедры биологии. Менеджер помог с выбором под бюджет — без навязывания дорогих позиций. Один прибор вернули по гарантии, заменили без вопросов за два дня.</p>
-      <div class="tauthor">
-        <div class="tavatar">ЕВ</div>
-        <div>
-          <div class="ta-name">Елена Волкова</div>
-          <div class="ta-role">Зав. кафедрой · СПбГУ</div>
-          <div class="stars">★★★★★</div>
-        </div>
-      </div>
-    </div>
-    <div class="tcard fu" style="transition-delay:.2s">
-      <div class="tq">"</div>
-      <p class="ttext">Работаем с компанией три года подряд. Ценим прозрачность ценообразования и отсутствие скрытых услуг. Спектрофотометр UV-1900i работает без нареканий уже 20 месяцев — эталонная надёжность.</p>
-      <div class="tauthor">
-        <div class="tavatar">ИК</div>
-        <div>
-          <div class="ta-name">Иван Козлов</div>
-          <div class="ta-role">Директор ЦЗЛ · ПАО «Фармаком»</div>
-          <div class="stars">★★★★★</div>
-        </div>
-      </div>
     </div>
   </div>
 </section>
