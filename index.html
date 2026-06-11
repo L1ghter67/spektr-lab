@@ -509,41 +509,288 @@ footer{background:#060E1C;padding:5rem 4rem 3rem;border-top:1px solid rgba(255,2
 .fd{opacity:0;transition:opacity .8s ease}
 .fd.vis{opacity:1}
 
-/* RESPONSIVE */
-@media(max-width:1100px){
+/* ─── HAMBURGER MENU ─────────────────────────────────── */
+.nav-burger{
+  display:none;flex-direction:column;justify-content:center;gap:5px;
+  width:40px;height:40px;background:transparent;border:1.5px solid var(--border);
+  padding:8px;cursor:pointer;flex-shrink:0;transition:border-color .2s;
+}
+.nav-burger span{
+  display:block;height:1.5px;background:#C8DEFF;border-radius:1px;
+  transition:transform .3s,opacity .3s,width .3s;transform-origin:center;
+}
+.nav-burger.open span:nth-child(1){transform:translateY(6.5px) rotate(45deg)}
+.nav-burger.open span:nth-child(2){opacity:0;width:0}
+.nav-burger.open span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg)}
+.nav-burger:hover{border-color:var(--blue)}
+
+.nav-mobile{
+  display:none;position:fixed;top:68px;left:0;right:0;z-index:99;
+  background:var(--surface);border-bottom:1px solid var(--border);
+  flex-direction:column;padding:1.2rem 1.5rem 1.5rem;gap:.2rem;
+  box-shadow:0 8px 32px rgba(6,20,56,.6);
+}
+.nav-mobile.open{display:flex}
+.nav-mobile a{
+  font-size:13px;font-weight:500;color:#6B98CC;letter-spacing:.08em;
+  text-transform:uppercase;padding:.9rem 0;border-bottom:1px solid var(--border);
+  transition:color .2s;
+}
+.nav-mobile a:last-of-type{border-bottom:none}
+.nav-mobile a:hover{color:var(--blue)}
+.nav-mobile .nav-cta-mob{
+  margin-top:.8rem;font-family:var(--fb);font-size:12px;font-weight:600;
+  color:#fff;background:var(--green);border:none;padding:12px;
+  letter-spacing:.08em;text-transform:uppercase;text-align:center;cursor:pointer;
+  transition:background .2s;
+}
+.nav-mobile .nav-cta-mob:hover{background:#128850}
+
+/* ─── RESPONSIVE ─────────────────────────────────────── */
+
+/* Laptop / large tablet  ≤ 1200px */
+@media(max-width:1200px){
   nav{padding:0 2rem}
+  .howto-sec,.projects-sec,.leasing-sec,.faq-sec,.certs-sec,
+  .testi-sec,.cta-sec{padding-left:2.5rem;padding-right:2.5rem}
+  footer{padding-left:2.5rem;padding-right:2.5rem}
+}
+
+/* Tablet landscape / small laptop  ≤ 1100px */
+@media(max-width:1100px){
+  /* Nav */
+  nav{padding:0 1.5rem}
   .nav-links{display:none}
+  .nav-cta{display:none}
+  .nav-burger{display:flex}
+  #nav-phone-link{display:inline!important}
+
+  /* Hero */
   .hero{grid-template-columns:1fr}
   .hero-img{display:none}
-  .hero-text{padding:4rem 2rem}
-  .cats-sec,.catalog-sec,
-  .stats{padding:4rem 2rem}
+  .hero-text{padding:4.5rem 2.5rem 3.5rem}
+
+  /* Stats */
+  .stats{padding:3.5rem 2rem}
   .stats-grid{grid-template-columns:repeat(2,1fr)}
+  .stat{border-right:none;border-bottom:1px solid var(--border)}
+  .stat:nth-child(odd){border-right:1px solid var(--border)}
+  .stat:nth-child(3),.stat:last-child{border-bottom:none}
+
+  /* Cats */
+  .cats-sec{padding:4rem 2rem}
   .cats-grid{grid-template-columns:1fr 1fr}
   .cat:nth-child(2){border-right:none}
   .cat:nth-child(3){border-right:1px solid var(--border)}
   .cat:nth-child(4){border-bottom:none}
   .cat:nth-child(5),.cat:nth-child(6){border-bottom:none;border-right:none}
   .cat:nth-child(5){border-right:1px solid var(--border)}
+
+  /* Catalog */
+  .catalog-sec{padding:4rem 2rem}
   .prod-grid{grid-template-columns:1fr 1fr}
-  
+  .catalog-head{flex-direction:column;align-items:flex-start}
+
+  /* Howto */
+  .howto-sec{padding:4rem 2rem}
+  .howto-steps{grid-template-columns:repeat(3,1fr);gap:2rem}
+  .howto-steps::before{display:none}
+  .howto-arr{display:none}
+
+  /* Projects */
+  .projects-sec{padding:4rem 2rem}
+  .projects-grid{grid-template-columns:1fr 1fr}
+
+  /* Leasing */
+  .leasing-sec{padding:4rem 2rem}
+  .leasing-grid{grid-template-columns:1fr;gap:2rem}
+
+  /* FAQ / Certs */
+  .faq-sec{padding:4rem 2rem}
+  .certs-sec{padding:2rem 2rem}
+
+  /* Services */
+  .viz-inner{grid-template-columns:1fr}
+  .viz-text{padding:4rem 2rem}
+  .viz-panel{min-height:280px}
+
+  /* Testimonials */
+  .testi-sec{padding:4rem 2rem}
   .tgrid{grid-template-columns:1fr}
   .tcard{border-right:none;border-bottom:1px solid var(--border)}
   .tcard:last-child{border-bottom:none}
-  .viz-inner{grid-template-columns:1fr}
-  .viz-text{padding:4rem 2rem}
-  .viz-panel{min-height:300px}
-  .cta-inner{grid-template-columns:1fr}
-  .footer-grid{grid-template-columns:1fr 1fr}
+
+  /* CTA */
+  .cta-sec{padding:5rem 2.5rem}
+  .cta-inner{grid-template-columns:1fr;gap:3rem}
+
+  /* Footer */
+  footer{padding:4rem 2rem 2.5rem}
+  .footer-grid{grid-template-columns:1fr 1fr;gap:2rem}
+
+  /* Modal */
   .modal-box{grid-template-columns:1fr}
   .modal-photo{min-height:220px}
+  .modal-overlay{padding:1.2rem}
 }
-@media(max-width:640px){
-  .cats-grid,.prod-grid{grid-template-columns:1fr}
-  .cat{border-right:none!important;border-bottom:1px solid var(--border)!important}
-  .stats-grid{grid-template-columns:1fr 1fr}
-  .footer-grid{grid-template-columns:1fr}
+
+/* Tablet portrait  ≤ 768px */
+@media(max-width:768px){
+  /* Nav */
+  nav{height:60px}
+  .nav-mobile{top:60px}
+  .logo-name{font-size:15px}
+  .hero{padding-top:60px}
+
+  /* Hero */
+  .hero-text{padding:3.5rem 1.5rem 2.5rem}
+  .hero-h1{font-size:clamp(2.4rem,8vw,4rem)}
+  .hero-mini{gap:1.5rem}
+  .hero-mini-n{font-size:2rem}
+  .hero-actions{flex-direction:column;gap:.75rem}
+  .hero-actions .btn-dark,.hero-actions .btn-line{width:100%;justify-content:center}
+
+  /* Stats */
+  .stats{padding:2.5rem 1.5rem}
+
+  /* Cats */
+  .cats-sec{padding:3rem 1.5rem}
+  .cats-head{flex-direction:column;align-items:flex-start;gap:1rem}
+  .cats-total{font-size:2.5rem}
+
+  /* Catalog */
+  .catalog-sec{padding:3rem 1.5rem}
+  .filters{gap:.3rem}
+  .filt{padding:5px 12px;font-size:10px}
+
+  /* Howto */
+  .howto-sec{padding:3rem 1.5rem}
+  .howto-steps{grid-template-columns:1fr 1fr;gap:1.5rem}
+
+  /* Projects */
+  .projects-sec{padding:3rem 1.5rem}
+  .projects-grid{grid-template-columns:1fr}
+
+  /* Leasing */
+  .leasing-sec{padding:3rem 1.5rem}
+  .l-row{grid-template-columns:1fr 1fr;overflow-x:auto}
+
+  /* FAQ */
+  .faq-sec{padding:3rem 1.5rem}
+  .certs-sec{padding:1.5rem}
+  .certs-inner{gap:1rem}
+
+  /* Services */
+  .viz-text{padding:3rem 1.5rem}
+
+  /* Testimonials */
+  .testi-sec{padding:3rem 1.5rem}
+
+  /* CTA */
+  .cta-sec{padding:4rem 1.5rem}
+  .cta-h{font-size:clamp(2rem,7vw,3rem)}
   .cta-form-row{flex-direction:column}
+
+  /* Footer */
+  footer{padding:3rem 1.5rem 2rem}
+  .footer-grid{grid-template-columns:1fr 1fr;gap:1.5rem}
+
+  /* Modal */
+  .modal-overlay{padding:.5rem;align-items:flex-end}
+  .modal-box{max-height:96vh;border-radius:0}
+  .modal-content{padding:1.5rem}
+  .modal-name{font-size:1.3rem}
+  .modal-price{font-size:1.6rem}
+  .modal-photo{min-height:180px}
+}
+
+/* Phone  ≤ 480px */
+@media(max-width:480px){
+  /* Nav */
+  .logo-name{font-size:14px;letter-spacing:.08em}
+
+  /* Hero */
+  .hero-text{padding:3rem 1.2rem 2rem}
+  .hero-h1{font-size:clamp(2rem,10vw,3rem)}
+  .hero-mini{flex-direction:column;gap:.8rem;padding-top:1.2rem}
+  .hero-mini-item{flex-direction:row;align-items:center;gap:.75rem}
+  .hero-mini-n{font-size:1.8rem}
+
+  /* Stats */
+  .stats{padding:2rem 1.2rem}
+  .stats-grid{grid-template-columns:1fr 1fr}
+  .stat{padding:1.5rem 1rem}
+  .stat-num{font-size:2.2rem}
+
+  /* Cats */
+  .cats-sec{padding:2.5rem 1.2rem}
+  .cats-grid{grid-template-columns:1fr}
+  .cat{border-right:none!important;border-bottom:1px solid var(--border)!important}
+  .cats-head{margin-bottom:2rem}
+
+  /* Catalog */
+  .catalog-sec{padding:2.5rem 1.2rem}
+  .prod-grid{grid-template-columns:1fr}
+  .pcard-photo{height:200px}
+
+  /* Howto */
+  .howto-sec{padding:2.5rem 1.2rem}
+  .howto-steps{grid-template-columns:1fr;gap:0}
+  .howto-step{flex-direction:row;text-align:left;gap:1rem;align-items:flex-start;padding:.9rem 0;border-bottom:1px solid var(--border)}
+  .howto-step:last-child{border-bottom:none}
+  .howto-ico{flex-shrink:0;margin:0}
+  .howto-n{font-size:1.4rem;margin:0;flex-shrink:0;width:30px;opacity:.35}
+
+  /* Projects */
+  .projects-sec{padding:2.5rem 1.2rem}
+
+  /* Leasing */
+  .leasing-sec{padding:2.5rem 1.2rem}
+  .l-row{grid-template-columns:1fr}
+  .l-cell:nth-child(1){border-right:none;border-bottom:1px solid var(--border)}
+  .l-cell:nth-child(3){border-left:none}
+
+  /* FAQ */
+  .faq-sec{padding:2.5rem 1.2rem}
+  .faq-q-txt{font-size:.88rem}
+  .certs-sec{padding:1.2rem}
+  .cert-badge{padding:.4rem .7rem}
+
+  /* Services */
+  .viz-text{padding:2.5rem 1.2rem}
+  .svc-items{gap:0}
+
+  /* Testimonials */
+  .testi-sec{padding:2.5rem 1.2rem}
+  .tcard{padding:1.5rem}
+
+  /* CTA */
+  .cta-sec{padding:3rem 1.2rem}
+  .cinput,.cta-btn{font-size:12px;padding:12px}
+
+  /* Footer */
+  footer{padding:2.5rem 1.2rem 1.5rem}
+  .footer-grid{grid-template-columns:1fr}
+  .footer-bottom{flex-direction:column;align-items:flex-start;gap:.75rem}
+  .footer-legal{gap:1rem;flex-wrap:wrap}
+
+  /* Modal */
+  .modal-overlay{padding:0;align-items:flex-end}
+  .modal-box{max-height:95vh;width:100%}
+  .modal-content{padding:1.2rem}
+  .modal-photo{min-height:160px}
+  .modal-tabs-bar{overflow-x:auto;scrollbar-width:none}
+  .modal-tabs-bar::-webkit-scrollbar{display:none}
+  .modal-tab-btn{white-space:nowrap;padding:.5rem .75rem}
+  .modal-btns{gap:.4rem}
+
+  /* FAB */
+  .fab-wrap{bottom:1.2rem;right:1.2rem}
+  .fab{width:46px;height:46px}
+  .fab-label{display:none}
+
+  /* Partners */
+  .partners-sec{padding:1rem 1.2rem}
 }
 </style>
 </head>
@@ -613,7 +860,19 @@ footer{background:#060E1C;padding:5rem 4rem 3rem;border-top:1px solid rgba(255,2
   </ul>
   <a href="tel:+78005550123" class="nav-phone" style="font-family:var(--fm);font-size:11px;letter-spacing:.06em;color:#4878B8;text-decoration:none;margin-right:.5rem;display:none" id="nav-phone-link">+7 (800) 555-01-23</a>
   <button class="nav-cta" onclick="document.getElementById('cta').scrollIntoView({behavior:'smooth'})">Получить КП</button>
+  <button class="nav-burger" id="nav-burger" aria-label="Меню">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
+
+<!-- MOBILE NAV -->
+<div class="nav-mobile" id="nav-mobile">
+  <a href="#cats" onclick="closeMobileNav()">Продукция</a>
+  <a href="#catalog" onclick="closeMobileNav()">Каталог</a>
+  <a href="#process" onclick="closeMobileNav()">Услуги</a>
+  <a href="#cta" onclick="closeMobileNav()">Контакты</a>
+  <button class="nav-cta-mob" onclick="closeMobileNav();document.getElementById('cta').scrollIntoView({behavior:'smooth'})">Получить КП</button>
+</div>
 
 <!-- HERO -->
 <section class="hero" id="home">
@@ -1970,6 +2229,24 @@ document.querySelectorAll('.modal-tab-btn').forEach(btn => {
 // NAV SHADOW
 window.addEventListener('scroll', () => {
   document.getElementById('nav').style.boxShadow = window.scrollY > 40 ? '0 2px 24px rgba(11,28,56,.1)' : 'none';
+});
+
+// HAMBURGER MENU
+const burger = document.getElementById('nav-burger');
+const mobileNav = document.getElementById('nav-mobile');
+function closeMobileNav() {
+  burger.classList.remove('open');
+  mobileNav.classList.remove('open');
+  document.body.style.overflow = '';
+}
+burger.addEventListener('click', () => {
+  const isOpen = mobileNav.classList.toggle('open');
+  burger.classList.toggle('open', isOpen);
+  document.body.style.overflow = isOpen ? 'hidden' : '';
+});
+// Close on resize to desktop
+window.addEventListener('resize', () => {
+  if (window.innerWidth > 1100) closeMobileNav();
 });
 
 // CTA SUBMIT
